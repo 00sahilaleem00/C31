@@ -7,6 +7,7 @@ var engine, world;
 var box1, pig1,pig3;
 var backgroundImg,platform;
 var bird, slingshot;
+var fly;
 
 
 function preload() {
@@ -41,6 +42,8 @@ function setup(){
 
     //log6 = new Log(230,180,80, PI/2);
     slingshot = new SlingShot(bird.body,{x:200, y:50});
+
+    fly = 0;
 }
 
 function draw(){
@@ -62,23 +65,31 @@ function draw(){
     log4.display();
     log5.display();
 
-    bird.display();
+    bird.display(fly);
     platform.display();
     //log6.display();
     slingshot.display();    
+
+
+    console.log(bird.body.position);
 }
 
 function mouseDragged(){
+    if(fly ==0){
     Matter.Body.setPosition(bird.body, {x: mouseX , y: mouseY});
+    }
 }
 
 
 function mouseReleased(){
     slingshot.fly();
+    fly = 1;
+    bird.display(fly)
 }
 
 function keyPressed(){
     if(keyCode === 32){
         slingshot.attach(bird.body);
+        fly = 0;
     }
 }
